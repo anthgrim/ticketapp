@@ -33,7 +33,10 @@ router.post(
     await newUser.save()
 
     //Generate JWT
-    const userJwt = jwt.sign({ _id: newUser._id, email: newUser.email }, 'asdf')
+    const userJwt = jwt.sign(
+      { _id: newUser._id, email: newUser.email },
+      process.env.JWT_KEY!
+    )
 
     // Send jwt/cookie or something
     req.session = {
