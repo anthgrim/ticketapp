@@ -20,11 +20,11 @@ router.post(
 
     const targetUser = await User.findOne({ email }).exec()
 
-    if (!targetUser) throw new BadRequestError('User does not exist')
+    if (!targetUser) throw new BadRequestError('Invalid Credentials')
 
-    const isValid = await Password.compare(targetUser.password, password)
+    const passwordMatch = await Password.compare(targetUser.password, password)
 
-    if (!isValid) throw new BadRequestError('Password is not valid')
+    if (!passwordMatch) throw new BadRequestError('Invalid Credentials')
 
     // Generate JWT
     const userJwt = jwt.sign(
