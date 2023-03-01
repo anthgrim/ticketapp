@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express'
+import jwt from 'jsonwebtoken'
 import { User } from '../models/user'
 import { body, validationResult } from 'express-validator'
 import { RequestValidationError } from '../errors/request-validation-error'
@@ -31,8 +32,17 @@ router.post(
     const newUser = User.build({ email, password })
     await newUser.save()
 
+    //Generate JWT
+    const userJwt = jwt.sign({ _id: newUser._id, email: newUser.email }, 'asdf')
+
     // Send jwt/cookie or something
-    res.status(201).send(newUser)
+    req.session = {
+      jwt: userJwt
+    }
+
+    res.status(201).json({
+      user: newUser
+    })
   }
 )
 
