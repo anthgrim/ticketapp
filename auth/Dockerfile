@@ -2,7 +2,7 @@ FROM node:lts-alpine
 
 WORKDIR /app
 COPY package.json /app/
-RUN npm install
+RUN npm install --only=prod
 COPY . /app/
 
 CMD ["npm", "start"]
