@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express'
 import { currentUser } from '../middlewares/current-user'
-import jwt from 'jsonwebtoken'
 
 const router = express.Router()
 
