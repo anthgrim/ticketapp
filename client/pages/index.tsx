@@ -1,9 +1,16 @@
-import Head from 'next/head'
-import Image from 'next/image'
-export default function Home() {
-  return (
-    <>
-      <div>Landing Page</div>
-    </>
-  )
+import React from 'react'
+import { NextPageContext } from 'next'
+import { buildClient } from '@/utils/build-client'
+
+const Home = ({ currentUser }: any) => {
+  console.log(currentUser)
+  return <div>index</div>
 }
+
+Home.getInitialProps = async (context: NextPageContext) => {
+  const axiosInstance = buildClient(context)
+  const { data } = await axiosInstance.get('/api/users/currentuser')
+  return data
+}
+
+export default Home
