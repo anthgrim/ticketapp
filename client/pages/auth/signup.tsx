@@ -2,9 +2,8 @@ import React from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { Input } from '@/components'
-import axios from 'axios'
-import { toast } from 'react-toastify'
-import { renderErrors } from '@/utils/render-errors'
+import { useRequest } from '@/hooks/useRequest'
+import Router from 'next/router'
 
 const SignUp = () => {
   const validationSchema = yup.object({
@@ -27,18 +26,18 @@ const SignUp = () => {
     },
     validationSchema,
     onSubmit: async () => {
-      const { email, password } = formik.values
-      const payload = { email, password }
-
-      try {
-        const response = await axios.post('/api/users/signup', payload)
-        console.log(response.data)
-        toast.success('Successfully Signed Up')
-      } catch (error: any) {
-        console.error(error.response.data)
-        renderErrors(error.response.data.errors)
-      }
+      doRequest()
     }
+  })
+
+  const { doRequest } = useRequest({
+    url: '/api/users/signup',
+    method: 'post',
+    payload: {
+      email: formik.values.email,
+      password: formik.values.password.trim()
+    },
+    onSuccess: () => Router.push('/')
   })
 
   return (
