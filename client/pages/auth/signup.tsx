@@ -3,6 +3,8 @@ import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { Input } from '@/components'
 import axios from 'axios'
+import { toast } from 'react-toastify'
+import { renderErrors } from '@/utils/render-errors'
 
 const SignUp = () => {
   const validationSchema = yup.object({
@@ -31,11 +33,14 @@ const SignUp = () => {
       try {
         const response = await axios.post('/api/users/signup', payload)
         console.log(response.data)
-      } catch (error) {
-        console.error(error)
+        toast.success('Successfully Signed Up')
+      } catch (error: any) {
+        console.error(error.response.data)
+        renderErrors(error.response.data.errors)
       }
     }
   })
+
   return (
     <div className='container'>
       <h1>Sign Up</h1>
