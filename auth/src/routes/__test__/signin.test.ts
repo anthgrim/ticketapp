@@ -51,7 +51,7 @@ it('returns 400 on invalid password', async () => {
     .expect(400)
 })
 
-it('sets cookie after successful sigin', async () => {
+it('sets cookie after successful signin', async () => {
   await request(app)
     .post(signUpUrl)
     .send({
