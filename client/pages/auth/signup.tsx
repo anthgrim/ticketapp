@@ -2,6 +2,7 @@ import React from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { Input } from '@/components'
+import axios from 'axios'
 
 const SignUp = () => {
   const validationSchema = yup.object({
@@ -26,7 +27,13 @@ const SignUp = () => {
     onSubmit: async () => {
       const { email, password } = formik.values
       const payload = { email, password }
-      console.log(payload)
+
+      try {
+        const response = await axios.post('/api/users/signup', payload)
+        console.log(response.data)
+      } catch (error) {
+        console.error(error)
+      }
     }
   })
   return (
