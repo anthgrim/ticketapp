@@ -3,8 +3,11 @@ import { NextPageContext } from 'next'
 import { buildClient } from '@/utils/build-client'
 
 const Home = ({ currentUser }: any) => {
-  console.log(currentUser)
-  return <div>index</div>
+  return currentUser ? (
+    <h1>You are signed in</h1>
+  ) : (
+    <h1>You are not signed in</h1>
+  )
 }
 
 Home.getInitialProps = async (context: NextPageContext) => {

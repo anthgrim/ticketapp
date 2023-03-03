@@ -11,25 +11,20 @@ const SignUp = () => {
     password: yup
       .string()
       .min(8, 'Password must be at least 8 chars long')
-      .required('Required'),
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref('password')], 'Passwords must match')
       .required('Required')
   })
 
   const formik = useFormik({
     initialValues: {
       email: '',
-      password: '',
-      confirmPassword: ''
+      password: ''
     },
     validationSchema,
     onSubmit: async () => doRequest()
   })
 
   const { doRequest } = useRequest({
-    url: '/api/users/signup',
+    url: '/api/users/signin',
     method: 'post',
     payload: {
       email: formik.values.email,
@@ -40,7 +35,7 @@ const SignUp = () => {
 
   return (
     <div className='container'>
-      <h1>Sign Up</h1>
+      <h1>Sign In</h1>
       <Input
         inputId='email'
         inputName='email'
@@ -59,21 +54,12 @@ const SignUp = () => {
         type='password'
         errorMessage={formik.errors.password}
       />
-      <Input
-        inputId='confirmPassword'
-        inputName='confirmPassword'
-        labelText='Confirm Password'
-        value={formik.values.confirmPassword}
-        onChange={formik.handleChange}
-        type='password'
-        errorMessage={formik.errors.confirmPassword}
-      />
       <button
         type='submit'
         className='btn btn-primary m-2'
         onClick={() => formik.handleSubmit()}
       >
-        Sign Up
+        Sign In
       </button>
     </div>
   )
