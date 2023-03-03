@@ -1,10 +1,26 @@
 import { MongoMemoryServer } from 'mongodb-memory-server'
+import request from 'supertest'
 import mongoose from 'mongoose'
 import { app } from '../app'
 
 jest.setTimeout(30000)
-
 let mongo: any
+
+declare global {
+  var signUp: () => Promise<string[]>
+}
+
+global.signUp = async () => {
+  const email = 'global@global.com'
+  const password = 'password'
+
+  const response = await request(app)
+    .post('/api/users/signUp')
+    .send({ email, password })
+    .expect(201)
+  const cookie = response.get('Set-Cookie')
+  return cookie
+}
 
 // Hook function to run befor all tests start
 beforeAll(async () => {
