@@ -1,6 +1,7 @@
 import React from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
+import { Input } from '@/components'
 
 const SignUp = () => {
   const validationSchema = yup.object({
@@ -12,6 +13,7 @@ const SignUp = () => {
     confirmPassword: yup
       .string()
       .oneOf([yup.ref('password')], 'Passwords must match')
+      .required('Required')
   })
 
   const formik = useFormik({
@@ -27,7 +29,45 @@ const SignUp = () => {
       console.log(payload)
     }
   })
-  return <form>Form</form>
+  return (
+    <div className='container'>
+      <h1>Sign Up</h1>
+      <Input
+        inputId='email'
+        inputName='email'
+        labelText='Email Address'
+        value={formik.values.email}
+        onChange={formik.handleChange}
+        errorMessage={formik.errors.email}
+        type='email'
+      />
+      <Input
+        inputId='password'
+        inputName='password'
+        labelText='Password'
+        value={formik.values.password}
+        onChange={formik.handleChange}
+        type='password'
+        errorMessage={formik.errors.password}
+      />
+      <Input
+        inputId='confirmPassword'
+        inputName='confirmPassword'
+        labelText='Confirm Password'
+        value={formik.values.confirmPassword}
+        onChange={formik.handleChange}
+        type='password'
+        errorMessage={formik.errors.confirmPassword}
+      />
+      <button
+        type='submit'
+        className='btn btn-primary m-2'
+        onClick={() => formik.handleSubmit()}
+      >
+        Sign Up
+      </button>
+    </div>
+  )
 }
 
 export default SignUp
