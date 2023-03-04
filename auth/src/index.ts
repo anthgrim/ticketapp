@@ -8,9 +8,13 @@ const start = async () => {
     throw new Error('JWT_KEY must be defined')
   }
 
+  if (!process.env.AUTH_DB) {
+    throw new Error('JWT_KEY must be defined')
+  }
+
   try {
-    await mongoose.connect('mongodb://auth-mongo-srv:27017/auth')
-    console.log('Connected to mongodb')
+    await mongoose.connect(process.env.AUTH_DB)
+    console.log('Connected to mongodb auth')
   } catch (error) {
     console.error(error)
   }
